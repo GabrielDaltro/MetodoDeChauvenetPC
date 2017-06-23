@@ -11,9 +11,10 @@ rejeitadas.
 
 
 #define TAM_MAX 30
-//#define ARDUINO // Descomente quando compilar no Arduino
-#define PC // Descomente quando compilar em um PC
-#define DEBUG_ON_PC // Descomente para visualizar o calculo etapa a etapa - só funciona no PC
+#define ARDUINO // Descomente quando compilar no Arduino
+#define DEBUG_ON_ARDUINO
+//#define PC // Descomente quando compilar em um PC
+//#define DEBUG_ON_PC // Descomente para visualizar o calculo etapa a etapa - só funciona no PC
 
 
 #ifdef ARDUINO
@@ -34,14 +35,35 @@ class Chauvenet {
         void verificaAmostras(void); // Verifica cada amostra e determina quais serão descartadas
         double getMediaAposDescarte(void); // retorna a média das amostras não descartadas
 
+        int getQtdAmostrasRejeitadas (void);
+        int getQtdAmostrasNaoRejeitadas (void);
+
+        const double* const getAmostrasRejeitadas(void);
+        const double* const getAmostrasNaoRejeitadas(void);
+
     private:
-        int quantidadeDeAmostras;
         static float DS_CRITICO[27];
+
+        int quantidadeDeAmostras;
         double amostras[TAM_MAX];
+
+        double amostrasRejeitadas[TAM_MAX];
+        int qtdAmostrasRejeitadas;
+        void setAmostrasRejeitadas(void);
+
+        double amostrasNaoRejeitadas[TAM_MAX];
+        int qtdAmostrasNaoRejeitadas;
+        void setAmostrasNaoRejeitadas(void);
+
         bool flagDeDescarte [TAM_MAX];
+
         double desvioPadrao;
         double mediaInicial;
         double mediaAposDescarte;
+
+        double getMediaInicial ();
+        double getDesvioPadrao ();
+        void getFlagDeDescarte( bool* vet );
 
         void calculaMediaInicial(void);
         void calculaDesvioPadrao(void);
